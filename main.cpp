@@ -59,6 +59,7 @@ public:
             delete mid_node;
             left_node->next = right_node;
         }
+        size--;
     }
 
     //get node at index
@@ -89,10 +90,11 @@ public:
         std::cout << "\n";
     }
 
+    int size = 0;
 private:
     Node<T>* next = NULL;
     Node<T>* tail = next;
-    int size= 0;
+ 
 };
 
 
@@ -104,6 +106,7 @@ int main()
     test.push(82);
     test.push(14);
     test.pop(0);
+    test.pop(0);
     test.print_chain();
-    std::cout << test.get(3) << "\n";
+    std::cout << test.size << "\n";
 }
