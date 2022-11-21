@@ -1,7 +1,7 @@
 #include <iostream>
 
 template <typename T>
-struct Node{
+struct Node {
     Node(T p_value) {
         value = p_value;
         next = NULL;
@@ -20,7 +20,7 @@ template <typename T>
 class LinkedList
 {
 public:
-    LinkedList(){}
+    LinkedList() {}
 
     // push to back
     void push(T value)
@@ -28,7 +28,8 @@ public:
         if (!tail && !next) {
             next = new Node<T>(value);
             tail = next;
-        }else
+        }
+        else
         {
             tail->next = new Node<T>(value);
             tail = tail->next;
@@ -41,25 +42,49 @@ public:
     {
         if (!next)
             return;
+
+        if (size == 1)
+        {
+            delete next;
+            next = NULL;
+            tail = NULL;
+            size--;
+            return;
+        }
+
+        size--;
+
         if (index == 0)
         {
-            Node<T>* temp = next->next;
+            Node<T>* right_node = next->next;
             delete next;
-            next = temp;
-        } else if(get(index) == tail)
-        { 
-            Node<T>* pnode = get(index - 1);
-            delete pnode->next;
-            pnode->next = NULL;
+            next = right_node;
+            return;
         }
-        else {
-            Node<T>* left_node = get(index - 1);
-            Node<T>* mid_node = left_node->next;
-            Node<T>* right_node = mid_node->next;
+
+        Node<T>* left_node = get(index - 1);
+
+        if (!left_node->next)
+        {
+            delete next;
+            next = NULL;
+            tail = NULL;
+            return;
+        }
+        Node<T>* mid_node = left_node->next;
+
+        if (!(mid_node->next))
+        {
+            tail = left_node;
             delete mid_node;
-            left_node->next = right_node;
+            left_node->next = NULL;
+            return;
         }
-        size--;
+
+        Node<T>* right_node = mid_node->next;
+        delete mid_node;
+        right_node->next = left_node;
+
     }
 
     //get node at index
@@ -94,19 +119,18 @@ public:
 private:
     Node<T>* next = NULL;
     Node<T>* tail = next;
- 
+
 };
 
 
 int main()
 {
+    std::cout << "starting test" << "\n";
     LinkedList<int> test;
-    test.push(12);
-    test.push(32);
-    test.push(82);
-    test.push(14);
-    test.pop(0);
-    test.pop(0);
-    test.print_chain();
+    test.push(12); // adds node with value 12 index: O | size 1
+    test.push(43); // adds node with value 43 index: 1 | size 2
+    test.pop(0); // removes node with index O | index 1 -> index 0 | size 1
+    test.pop(0); // removes node with index 0 | size 1
+    test.pop(0); // does nothing beacuse size = 0
     std::cout << test.size << "\n";
 }
