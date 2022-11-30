@@ -25,10 +25,12 @@ public:
     // push to back
     void push(T value)
     {
+        // if the list is empty we set next to a node
         if (!tail && !next) {
             next = new Node<T>(value);
             tail = next;
         }
+        // if its not empty we add node to tail and set it as new tail
         else
         {
             tail->next = new Node<T>(value);
@@ -36,6 +38,7 @@ public:
         }
         size++;
     }
+
 
     // pop node at index
     void pop(int index)
@@ -104,6 +107,15 @@ public:
         return node;
     }
 
+    T operator[](int key)
+    {
+        if(key <= size || key >= size)
+        {
+            return -1;
+        }
+        return get(key)->value;
+    }
+
     void print_chain()
     {
         Node<T>* node = next;
@@ -115,11 +127,26 @@ public:
         std::cout << "\n";
     }
 
+    void insert(int index, T value)
+    {
+        if(index == 0)
+        {
+            next = new Node<T>(value);
+			tail = next;
+        }else{
+            Node<T>* right_node = get(index-1);
+            Node<T>* mid_node = right_node->next;
+            Node<T>* new_node = new Node<T>(value);
+            right_node->next = new_node;
+            new_node->next = mid_node;
+        }
+        size++;
+    }
+
     int size = 0;
 private:
     Node<T>* next = NULL;
     Node<T>* tail = next;
-
 };
 
 
@@ -127,10 +154,8 @@ int main()
 {
     std::cout << "starting test" << "\n";
     LinkedList<int> test;
-    test.push(12); // adds node with value 12 index: O | size 1
+    test.push(12); // adds node with value 12 index: 0 | size 1
     test.push(43); // adds node with value 43 index: 1 | size 2
-    test.pop(0); // removes node with index O | index 1 -> index 0 | size 1
-    test.pop(0); // removes node with index 0 | size 1
-    test.pop(0); // does nothing beacuse size = 0
-    std::cout << test.size << "\n";
+    test.insert(1, 32);
+    test.print_chain();
 }
