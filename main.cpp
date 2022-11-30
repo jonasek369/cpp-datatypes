@@ -129,10 +129,18 @@ public:
 
     void insert(int index, T value)
     {
+		if (index > size++)
+		{
+			return;
+		}
         if(index == 0)
         {
+            Node<T>* old_node = next;
             next = new Node<T>(value);
-			tail = next;
+            if(old_node == tail)
+                tail = next;
+            next->next = old_node;
+			
         }else{
             Node<T>* right_node = get(index-1);
             Node<T>* mid_node = right_node->next;
@@ -142,7 +150,24 @@ public:
         }
         size++;
     }
-
+	
+	void fill(T value, int size)
+    {
+		for(int i = 0; i < size; i++)
+		{
+			push(value);
+		}
+	}
+	
+	
+	void fill(T* array, int size)
+    {
+		for(int i = 0; i < size; i++)
+		{
+			push(array[i]);
+		}
+	}
+	
     int size = 0;
 private:
     Node<T>* next = NULL;
@@ -154,8 +179,11 @@ int main()
 {
     std::cout << "starting test" << "\n";
     LinkedList<int> test;
-    test.push(12); // adds node with value 12 index: 0 | size 1
-    test.push(43); // adds node with value 43 index: 1 | size 2
-    test.insert(1, 32);
+    test.push(2);
+    test.push(4);
+    test.insert(0, 1);
+    int arr[5] = {8, 16, 32, 64};
+    test.fill(arr, 4);
+    test.push(128);
     test.print_chain();
 }
