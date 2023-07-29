@@ -1,4 +1,5 @@
 #include <string.h>
+#include <string>
 #include <iostream>
 #include <algorithm>
 #include <utility>
@@ -229,7 +230,7 @@ struct List
     T& get(size_t index)
     {
         if(index >= size){
-            throw std::out_of_range("index ? out of range. List size is ?!");
+            throw std::out_of_range("index" + std::to_string(index) +" out of range. List size is " + std::to_string(size));
         }
         return data[index];
     }
@@ -255,7 +256,7 @@ struct List
 
     T pop(size_t index){
         if(index >= size){
-            throw std::out_of_range("index ? out of range. List size is ?!");
+            throw std::out_of_range("index" + std::to_string(index) +" out of range. List size is " + std::to_string(size));
         }
         T tmp = data[index];
         memcpy(data + index, data + index + 1, (size - index - 1) * sizeof(T));
