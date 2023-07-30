@@ -1,3 +1,3 @@
 # cpp-datatypes
-datatypes I make just for learning  
+datatypes I made just for learning  
 can contain memory leaks or errors I'm just starting with C++ 
